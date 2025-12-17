@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class StudentManager {
 
-    private StudentDataConnection DataBaseConnection = new StudentDataConnection();
+    private final StudentDataConnection DataBaseConnection = new StudentDataConnection();
 
     /*
     - Add Students
@@ -30,8 +30,8 @@ public class StudentManager {
 
 
         } catch (SQLException e) {
-            System.out.println("Error adding student");
-            e.printStackTrace();
+            System.out.println("Error adding student " + e.getMessage());
+
         }
     }
 
@@ -53,8 +53,8 @@ public class StudentManager {
 
 
         } catch (SQLException e) {
-            System.out.println("error viewing Student");
-            e.printStackTrace();
+            System.out.println("error viewing Student " + e.getMessage());
+
         }
     }
 
