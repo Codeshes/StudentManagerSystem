@@ -4,17 +4,16 @@ import java.sql.SQLException;
 
 public class StudentDataConnection {
 
-    private final String URL = "jdbc:mysql://localhost:3306/mydb";
-    private final String USER = "root";
-    private final String PASS = "pogisiwinter_1";
+    protected final String URL = "jdbc:mysql://localhost:3306/mydb";
+    protected final String USER = "root";
+    protected final String PASS = "pogisiwinter_1";
 
     // Method to get a database connection
     public Connection getConnection() {
         try {
             return DriverManager.getConnection(URL, USER, PASS);
         } catch (SQLException e) {
-            System.out.println("Connection failed! Check output console");
-            e.printStackTrace();
+            System.out.println("Connection failed! Check output console: " + e.getMessage());
             return null;
         }
     }
