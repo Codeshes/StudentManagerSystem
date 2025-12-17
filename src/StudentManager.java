@@ -1,5 +1,4 @@
 import java.sql.ResultSet;
-import java.util.HashMap;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
 import java.sql.Connection;
@@ -7,7 +6,6 @@ import java.sql.SQLException;
 
 public class StudentManager {
 
-    private HashMap<Integer, Students> studentManager = new HashMap<>();
     private StudentDataConnection DataBaseConnection = new StudentDataConnection();
 
     /*
