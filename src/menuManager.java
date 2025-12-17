@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class menuManager {
@@ -10,7 +11,8 @@ public class menuManager {
 
             System.out.println("""
                     [1]. Add user
-                    [2]. View user""");
+                    [2]. View user
+                    [3]. Update user""");
             choice = sc.nextInt();
             sc.nextLine();
         } catch (Exception e) {
@@ -19,22 +21,57 @@ public class menuManager {
         }
         switch (choice) {
             case 1 -> {
-                System.out.println("Enter Student Name");
-                String studentName = sc.nextLine();
+                try {
 
-                System.out.println("Enter student Course");
-                String studentCourse = sc.nextLine();
 
-                System.out.println("Enter Student Final Average");
-                Double finalAverage = sc.nextDouble();
-                sc.nextLine();
+                    System.out.print("Enter Student Name: ");
+                    String studentName = sc.nextLine();
 
-                Students s = new Students(studentName, studentCourse, finalAverage);
-                studManager.addStudent(s);
+                    System.out.print("Enter student Course: ");
+                    String studentCourse = sc.nextLine();
+
+
+                    double finalAverage;
+                    while (true) {
+                        System.out.print("Enter Student Final Average: ");
+                        String input = sc.nextLine();
+
+                        try {
+                            finalAverage = Double.parseDouble(input);
+                            if (finalAverage < 0) {
+                                System.out.println("Average cannot be negative value");
+                                continue;
+                            }
+                            break;
+                        } catch(InputMismatchException e){
+                            System.out.println("Invalid Input. Please enter a valid input");
+                        }
+                    }
+
+                    if (studentName.isEmpty() && studentCourse.isEmpty()) System.out.println("FIELD CANNOT BE EMPTY");
+
+                    Students s = new Students(studentName, studentCourse, finalAverage);
+                    studManager.addStudent(s);
+
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid Input");
+                    sc.nextLine();
+                }
 
             }
-            case 2 -> {
-                studManager.viewStudents();
+            case 2 -> studManager.viewStudents();
+            case 3 -> {
+                System.out.print("Enter Student ID to edit Credentials: ");
+                int id = sc.nextInt();
+                sc.nextLine();
+
+                System.out.print("Enter Student Name Edit: ");
+                String studentNewName = sc.nextLine();
+
+                System.out.print("Enter new Student Average Grade: ");
+                double studentNewGradeAverage = sc.nextDouble();
+
+                studManager.updateStudentNameAndAverage(id, studentNewName, studentNewGradeAverage);
             }
         }
     }

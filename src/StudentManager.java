@@ -58,4 +58,26 @@ public class StudentManager {
         }
     }
 
+    public void updateStudentNameAndAverage(int id, String newName, double newAverage) {
+        String updateStudentNameAndAverageSQL = "UPDATE studentmanager SET student_NAME = ?, student_GRADEAVERAGE = ? "
+                + "WHERE student_ID = ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(updateStudentNameAndAverageSQL)) {
+
+            ps.setString(1, newName);
+            ps.setDouble(2, newAverage);
+            ps.setInt(3, id);
+
+            int rows = ps.executeUpdate();
+
+            System.out.println(rows > 0 ? "Updated Successfully." : "Student not Found");
+
+            System.out.println("Updated Successfully: " + newName + " " + newAverage);
+
+        } catch (SQLException e) {
+            System.out.println("Error searching: " + e.getMessage());
+        }
+    }
+
 }
