@@ -42,21 +42,40 @@ public class StudentManager {
              PreparedStatement ps = conn.prepareStatement(viewerSql);
              ResultSet rs = ps.executeQuery()) {
 
+            int idWidth = 6;
+            int nameWidth = 25;
+            int courseWidth = 22;
+            int avgWidth = 8;
+
+            System.out.printf("+%" + idWidth + "s+%" + nameWidth + "s+%" + courseWidth + "s+%" + avgWidth + "s+\n",
+                    "-".repeat(idWidth), "-".repeat(nameWidth), "-".repeat(courseWidth), "-".repeat(avgWidth));
+            System.out.printf("| %-"+(idWidth-1)+"s| %-"+(nameWidth-1)+"s| %-"+(courseWidth-1)+"s| %-"+(avgWidth-1)+"s|\n",
+                    "ID", "Name", "Course", "Average");
+            System.out.printf("+%" + idWidth + "s+%" + nameWidth + "s+%" + courseWidth + "s+%" + avgWidth + "s+\n",
+                    "-".repeat(idWidth), "-".repeat(nameWidth), "-".repeat(courseWidth), "-".repeat(avgWidth));
+
+            boolean hasRows = false;
             while (rs.next()) {
-                System.out.println(
-                        "ID: " + rs.getInt("student_ID") +
-                                ", Name: " + rs.getString("student_NAME") +
-                                ", Course: " + rs.getString("student_COURSE") +
-                                ", Average: " + rs.getDouble("student_GRADEAVERAGE")
-                );
+                hasRows = true;
+                System.out.printf("| %-"+(idWidth-1)+"d| %-"+(nameWidth-1)+"s| %-"+(courseWidth-1)+"s| %-"+(avgWidth-1)+".2f|\n",
+                        rs.getInt("student_ID"),
+                        rs.getString("student_NAME"),
+                        rs.getString("student_COURSE"),
+                        rs.getDouble("student_GRADEAVERAGE"));
             }
 
+            if (!hasRows) {
+                System.out.println("| No students found in database |");
+            }
+
+            System.out.printf("+%" + idWidth + "s+%" + nameWidth + "s+%" + courseWidth + "s+%" + avgWidth + "s+\n",
+                    "-".repeat(idWidth), "-".repeat(nameWidth), "-".repeat(courseWidth), "-".repeat(avgWidth));
 
         } catch (SQLException e) {
-            System.out.println("error viewing Student " + e.getMessage());
-
+            System.out.println("Error viewing students: " + e.getMessage());
         }
     }
+
 
     protected void updateStudentNameAndAverage(int id, String newName, double newAverage) {
         String updateStudentNameAndAverageSQL = "UPDATE studentmanager SET student_NAME = ?, student_GRADEAVERAGE = ? "
