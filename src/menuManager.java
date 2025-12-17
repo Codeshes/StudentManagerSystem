@@ -12,7 +12,8 @@ public class menuManager {
             System.out.println("""
                     [1]. Add user
                     [2]. View user
-                    [3]. Update user""");
+                    [3]. Update user
+                    [4]. Delete Student""");
             choice = sc.nextInt();
             sc.nextLine();
         } catch (Exception e) {
@@ -72,6 +73,13 @@ public class menuManager {
                 double studentNewGradeAverage = sc.nextDouble();
 
                 studManager.updateStudentNameAndAverage(id, studentNewName, studentNewGradeAverage);
+            }
+            case 4 -> {
+                System.out.print("Enter a STUDENT ID to be DELETED: ");
+                int id = sc.nextInt();
+                sc.nextLine();
+
+                studManager.deleteStudentByItsID(id);
             }
         }
     }

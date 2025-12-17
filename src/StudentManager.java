@@ -14,7 +14,7 @@ public class StudentManager {
     - Delete Students
     - Update Students
      */
-    public void addStudent(Students s) {
+    protected void addStudent(Students s) {
         String insertSQL = "INSERT INTO studentmanager (student_NAME, student_COURSE, student_GRADEAVERAGE) VALUES( ?, ?, ?)";
 
         try (Connection conn = DataBaseConnection.getConnection();
@@ -35,7 +35,7 @@ public class StudentManager {
         }
     }
 
-    public void viewStudents() {
+    protected void viewStudents() {
         String viewerSql = "SELECT * FROM studentmanager";
 
         try (Connection conn = DataBaseConnection.getConnection();
@@ -58,7 +58,7 @@ public class StudentManager {
         }
     }
 
-    public void updateStudentNameAndAverage(int id, String newName, double newAverage) {
+    protected void updateStudentNameAndAverage(int id, String newName, double newAverage) {
         String updateStudentNameAndAverageSQL = "UPDATE studentmanager SET student_NAME = ?, student_GRADEAVERAGE = ? "
                 + "WHERE student_ID = ?";
 
@@ -77,6 +77,23 @@ public class StudentManager {
 
         } catch (SQLException e) {
             System.out.println("Error searching: " + e.getMessage());
+        }
+    }
+
+    protected void deleteStudentByItsID(int studentId) {
+        String deleteStudentByItsIDSQL = "DELETE FROM studentmanager WHERE student_ID = ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(deleteStudentByItsIDSQL)) {
+
+            ps.setInt(1, studentId);
+
+            int rows = ps.executeUpdate();
+
+            System.out.println(rows > 0 ? "Deleted Successfully." : "Deletion Failed.");
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting Student: " + e.getMessage());
         }
     }
 
