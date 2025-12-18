@@ -10,12 +10,12 @@ public class menuManager {
         while (true) {
             System.out.println("""
                     =============================
-                            [1]. Add user
-                            [2]. View user
-                            [3]. Update user
-                            [4]. Delete Student
-                            [5]. Search User by ID
-                            [0]. EXIT
+                         [1]. Add user
+                         [2]. View user
+                         [3]. Update user
+                         [4]. Delete Student
+                         [5]. Search User by ID
+                         [0]. EXIT
                     =============================""");
             if (!sc.hasNextInt()) {
                 System.out.println("Invalid input.");
@@ -113,7 +113,6 @@ public class menuManager {
                         String input = sc.nextLine().trim();
 
                         if (input.isEmpty()) {
-                            System.out.println("Input cannot be empty.");
                             break;
                         }
 
@@ -122,6 +121,8 @@ public class menuManager {
                             if (parsed < 0) {
                                 System.out.println("Average cannot be negative.");
                                 continue;
+                            } else if (!input.isEmpty()) {
+                                newAverage = parsed;
                             }
                             newAverage = parsed;
                             break;
