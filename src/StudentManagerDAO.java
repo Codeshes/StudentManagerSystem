@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class StudentManager {
+public class StudentManagerDAO {
 
     private final StudentDataConnection DataBaseConnection = new StudentDataConnection();
 
@@ -116,4 +116,30 @@ public class StudentManager {
         }
     }
 
+    public void searchStudentIDNumber(int StudentNumberId) {
+        String searchStudentIdNUMBERSQL = "SELECT * FROM studentmanager WHERE student_ID = ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(searchStudentIdNUMBERSQL)) {
+
+                 ps.setInt(1, StudentNumberId);
+
+                 try (ResultSet rs = ps.executeQuery()) {
+                     if (rs.next()) {
+                         System.out.println("STUDENT CREDENTIAL: " +
+                                 rs.getInt("student_ID") + " | " +
+                                 rs.getString("student_NAME") + " | " +
+                                 rs.getString("student_COURSE") + " | " +
+                                 rs.getDouble("student_GRADEAVERAGE"));
+                     } else {
+                         System.out.println("No student found with the ID of " + StudentNumberId);
+                     }
+                 } catch (SQLException e) {
+                     System.out.println("Exception occurs: " + e.getMessage());
+                 }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
