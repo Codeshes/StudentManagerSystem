@@ -9,7 +9,7 @@ public class menuManager {
         int choice;
         while (true) {
             System.out.println("""
-                    =============================
+                    \n=============================
                          [1]. Add user
                          [2]. View user
                          [3]. Update user
@@ -181,6 +181,17 @@ public class menuManager {
                             System.out.print(".");
                         }
                         System.exit(0);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                default -> {
+                    System.out.print("Invalid choice. Returning");
+                    try {
+                        for (int i = 0; i < 5; i++) {
+                            Thread.sleep(400);
+                            System.out.print(".");
+                        }
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
