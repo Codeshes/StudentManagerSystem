@@ -139,7 +139,7 @@ public class menuManager {
                         try {
                             searchById = Integer.parseInt(input);
                             break;
-                        } catch (NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             System.out.println("Enter a Valid Input.");
                         }
                     }

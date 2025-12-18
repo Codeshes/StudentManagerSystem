@@ -49,7 +49,7 @@ public class StudentManagerDAO {
 
             System.out.printf("+%" + idWidth + "s+%" + nameWidth + "s+%" + courseWidth + "s+%" + avgWidth + "s+\n",
                     "-".repeat(idWidth), "-".repeat(nameWidth), "-".repeat(courseWidth), "-".repeat(avgWidth));
-            System.out.printf("| %-"+(idWidth-1)+"s| %-"+(nameWidth-1)+"s| %-"+(courseWidth-1)+"s| %-"+(avgWidth-1)+"s|\n",
+            System.out.printf("| %-" + (idWidth - 1) + "s| %-" + (nameWidth - 1) + "s| %-" + (courseWidth - 1) + "s| %-" + (avgWidth - 1) + "s|\n",
                     "ID", "Name", "Course", "Average");
             System.out.printf("+%" + idWidth + "s+%" + nameWidth + "s+%" + courseWidth + "s+%" + avgWidth + "s+\n",
                     "-".repeat(idWidth), "-".repeat(nameWidth), "-".repeat(courseWidth), "-".repeat(avgWidth));
@@ -57,7 +57,7 @@ public class StudentManagerDAO {
             boolean hasRows = false;
             while (rs.next()) {
                 hasRows = true;
-                System.out.printf("| %-"+(idWidth-1)+"d| %-"+(nameWidth-1)+"s| %-"+(courseWidth-1)+"s| %-"+(avgWidth-1)+".2f|\n",
+                System.out.printf("| %-" + (idWidth - 1) + "d| %-" + (nameWidth - 1) + "s| %-" + (courseWidth - 1) + "s| %-" + (avgWidth - 1) + ".2f|\n",
                         rs.getInt("student_ID"),
                         rs.getString("student_NAME"),
                         rs.getString("student_COURSE"),
@@ -122,21 +122,21 @@ public class StudentManagerDAO {
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(searchStudentIdNUMBERSQL)) {
 
-                 ps.setInt(1, StudentNumberId);
+            ps.setInt(1, StudentNumberId);
 
-                 try (ResultSet rs = ps.executeQuery()) {
-                     if (rs.next()) {
-                         System.out.println("STUDENT CREDENTIAL: " +
-                                 rs.getInt("student_ID") + " | " +
-                                 rs.getString("student_NAME") + " | " +
-                                 rs.getString("student_COURSE") + " | " +
-                                 rs.getDouble("student_GRADEAVERAGE"));
-                     } else {
-                         System.out.println("No student found with the ID of " + StudentNumberId);
-                     }
-                 } catch (SQLException e) {
-                     System.out.println("Exception occurs: " + e.getMessage());
-                 }
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    System.out.println("STUDENT CREDENTIAL: " +
+                            rs.getInt("student_ID") + " | " +
+                            rs.getString("student_NAME") + " | " +
+                            rs.getString("student_COURSE") + " | " +
+                            rs.getDouble("student_GRADEAVERAGE"));
+                } else {
+                    System.out.println("No student found with the ID of " + StudentNumberId);
+                }
+            } catch (SQLException e) {
+                System.out.println("Exception occurs: " + e.getMessage());
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
