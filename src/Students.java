@@ -18,6 +18,13 @@ public class Students {
         this.FinalAverage = finalAverage;
     }
 
+    public Students(int studentId, String studentName, String studentCourse, double finalAverage) {
+        this.StudentId = studentId;
+        this.studentName = studentName;
+        this.studentCourse = studentCourse;
+        this.FinalAverage = finalAverage;
+    }
+
     public int getStudentId() {return StudentId;}
     public String getStudentName() { return studentName; }
     public String getStudentCourse() { return studentCourse; }

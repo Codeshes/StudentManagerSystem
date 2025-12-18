@@ -2,18 +2,21 @@ import java.util.Scanner;
 
 public class menuManager {
     StudentManagerDAO studManager = new StudentManagerDAO();
+
     Scanner sc = new Scanner(System.in);
 
     public void menuStart() {
         int choice;
         while (true) {
             System.out.println("""
-                    [1]. Add user
-                    [2]. View user
-                    [3]. Update user
-                    [4]. Delete Student
-                    [5]. Search User by ID
-                    [0]. EXIT""");
+                    =============================
+                            [1]. Add user
+                            [2]. View user
+                            [3]. Update user
+                            [4]. Delete Student
+                            [5]. Search User by ID
+                            [0]. EXIT
+                    =============================""");
             if (!sc.hasNextInt()) {
                 System.out.println("Invalid input.");
                 sc.nextLine();
@@ -60,49 +63,73 @@ public class menuManager {
                 case 3 -> {
 
                     int id;
-
                     while (true) {
-                        System.out.print("Enter Student ID to edit Credentials: ");
+                        System.out.print("Enter Student ID to update: ");
                         String input = sc.nextLine().trim();
-
-                        if (input.isEmpty()) {
-                            System.out.println("Field Cannot be empty");
-                            continue;
-                        }
-                        try {
-                            id = Integer.parseInt(input);
-                            break;
-                        } catch (NumberFormatException e) {
-                            System.out.println("Invalid input please enter a valid one.");
-                        }
-                    }
-
-                    System.out.print("Enter Student Name Edit: ");
-                    String studentNewName = sc.nextLine().trim();
-
-                    if (studentNewName.isEmpty()) {
-                        System.out.println("Field cannot be empty");
-                        break;
-                    }
-
-                    double studentNewGradeAverage;
-                    while (true) {
-                        System.out.print("Enter new Student Average grade. (If grade still same. Enter the current grade): ");
-                        String input = sc.nextLine();
 
                         if (input.isEmpty()) {
                             System.out.println("Field cannot be empty.");
                             continue;
                         }
+
                         try {
-                            studentNewGradeAverage = Double.parseDouble(input);
+                            id = Integer.parseInt(input);
                             break;
                         } catch (NumberFormatException e) {
-                            System.out.println("Please enter a valid input");
+                            System.out.println("Invalid ID.");
                         }
                     }
 
-                    studManager.updateStudentNameAndAverage(id, studentNewName, studentNewGradeAverage);
+                    Students existing = studManager.getStudentById(id);
+                    if (existing == null) {
+                        System.out.println("Student not found.");
+                        break;
+                    }
+
+                    System.out.println("Press ENTER to keep current value.");
+
+                    // Initialize with existing values
+                    String newName = existing.getStudentName();
+                    String newCourse = existing.getStudentCourse();
+                    double newAverage = existing.getFinalAverage();
+
+                    // Name
+                    System.out.print("New Name [" + newName + "]: ");
+                    String inputName = sc.nextLine().trim();
+                    if (!inputName.isEmpty()) {
+                        newName = inputName;
+                    }
+
+                    // Course
+                    System.out.print("New Course [" + newCourse + "]: ");
+                    String inputCourse = sc.nextLine().trim();
+                    if (!inputCourse.isEmpty()) {
+                        newCourse = inputCourse;
+                    }
+
+                    // Average
+                    while (true) {
+                        System.out.print("New Average [" + newAverage + "]: ");
+                        String input = sc.nextLine().trim();
+
+                        if (input.isEmpty()) {
+                            System.out.println("Input cannot be empty.");
+                            break;
+                        }
+
+                        try {
+                            double parsed = Double.parseDouble(input);
+                            if (parsed < 0) {
+                                System.out.println("Average cannot be negative.");
+                                continue;
+                            }
+                            newAverage = parsed;
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid number.");
+                        }
+                    }
+                    studManager.updateStudentNameCourseAndAverage(id, newName, newCourse, newAverage);
                 }
                 case 4 -> {
                     int id;

@@ -77,26 +77,49 @@ public class StudentManagerDAO {
     }
 
 
-    protected void updateStudentNameAndAverage(int id, String newName, double newAverage) {
-        String updateStudentNameAndAverageSQL = "UPDATE studentmanager SET student_NAME = ?, student_GRADEAVERAGE = ? "
+    protected void updateStudentNameCourseAndAverage(int id, String newName, String course, double newAverage) {
+        String updateStudentNameAndAverageSQL = "UPDATE studentmanager SET student_NAME = ?, student_COURSE = ?, student_GRADEAVERAGE = ? "
                 + "WHERE student_ID = ?";
 
         try (Connection conn = DataBaseConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(updateStudentNameAndAverageSQL)) {
 
             ps.setString(1, newName);
-            ps.setDouble(2, newAverage);
-            ps.setInt(3, id);
+            ps.setString(2, course);
+            ps.setDouble(3, newAverage);
+            ps.setInt(4, id);
 
             int rows = ps.executeUpdate();
 
             System.out.println(rows > 0 ? "Updated Successfully." : "Student not Found");
 
-            System.out.println("Updated Successfully: " + newName + " " + newAverage);
 
         } catch (SQLException e) {
-            System.out.println("Error searching: " + e.getMessage());
+            System.out.println("Error Updating: " + e.getMessage());
         }
+    }
+
+    public Students getStudentById(int id) {
+        String getStudentByIdSQL = "Select * FROM studentmanager WHERE student_ID = ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(getStudentByIdSQL)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Students (
+                            rs.getInt("student_ID"),
+                            rs.getString("student_NAME"),
+                            rs.getString("student_COURSE"),
+                            rs.getDouble("student_GRADEAVERAGE"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error Getting data: " + e.getMessage());
+        }
+        return null;
     }
 
     protected void deleteStudentByItsID(int studentId) {
@@ -142,4 +165,7 @@ public class StudentManagerDAO {
             throw new RuntimeException(e);
         }
     }
+
+
+
 }
