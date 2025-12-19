@@ -5,6 +5,7 @@ public class menuManager {
 
     Scanner sc = new Scanner(System.in);
 
+    @SuppressWarnings("BusyWait")
     public void menuStart() {
         int choice;
         while (true) {
@@ -121,8 +122,6 @@ public class menuManager {
                             if (parsed < 0) {
                                 System.out.println("Average cannot be negative.");
                                 continue;
-                            } else if (!input.isEmpty()) {
-                                newAverage = parsed;
                             }
                             newAverage = parsed;
                             break;
