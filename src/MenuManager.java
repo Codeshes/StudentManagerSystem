@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class menuManager {
+public class MenuManager {
     StudentManagerDAO studManager = new StudentManagerDAO();
 
     Scanner sc = new Scanner(System.in);
@@ -11,17 +11,17 @@ public class menuManager {
         while (true) {
             System.out.println("""
                     \n=============================
-                         [1]. Add user
-                         [2]. View user
-                         [3]. Update user
+                         [1]. Add Student
+                         [2]. View Students
+                         [3]. Update Student
                          [4]. Delete Student
-                         [5]. Search User by ID
+                         [5]. Search Student by ID
                          [0]. EXIT
                     =============================""");
             if (!sc.hasNextInt()) {
                 System.out.println("Invalid input.");
                 sc.nextLine();
-                return;
+                continue;
             }
             choice = sc.nextInt();
             sc.nextLine();
@@ -179,10 +179,11 @@ public class menuManager {
                             Thread.sleep(500);
                             System.out.print(".");
                         }
-                        System.exit(0);
                     } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                     }
+                    sc.close();
+                    System.exit(0);
                 }
                 default -> {
                     System.out.print("Invalid choice. Returning");

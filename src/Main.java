@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        menuManager menu = new menuManager();
+        MenuManager menu = new MenuManager();
         menu.menuStart();
     }
 }
