@@ -122,6 +122,33 @@ public class StudentManagerDAO {
         return null;
     }
 
+    public void getStudentByName(String name) {
+        String sql = "SELECT * FROM studentmanager WHERE student_NAME LIKE ?";
+
+        try (Connection conn = DataBaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + name + "%");
+
+            try (ResultSet rs = ps.executeQuery()) {
+                boolean isFound = false;
+                while (rs.next()) {
+                     isFound = true;
+                    System.out.println("STUDENT CREDENTIAL: " +
+                            rs.getInt("student_ID") + " | " +
+                            rs.getString("student_NAME") + " | " +
+                            rs.getString("student_COURSE") + " | " +
+                            rs.getDouble("student_GRADEAVERAGE"));
+                }
+                if (!isFound) {
+                    System.out.println("Student not FOUND / INVALID");
+                }
+            }
+         } catch (SQLException e) {
+            System.out.println("Cannot Find Student / INVALID: " + e.getMessage());
+        }
+    }
+
     protected void deleteStudentByItsID(int studentId) {
         String deleteStudentByItsIDSQL = "DELETE FROM studentmanager WHERE student_ID = ?";
 
