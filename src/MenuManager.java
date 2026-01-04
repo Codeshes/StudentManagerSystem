@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuManager {
@@ -16,6 +17,7 @@ public class MenuManager {
                          [3]. Update Student
                          [4]. Delete Student
                          [5]. Search Student by ID
+                         [6]. Get Student by NAME
                          [0]. EXIT
                     =============================""");
             if (!sc.hasNextInt()) {
@@ -171,6 +173,16 @@ public class MenuManager {
                         }
                     }
                     studManager.searchStudentIDNumber(searchById);
+                }
+                case 6 -> {
+                        System.out.println("Enter a STUDENT NAME to be SEARCHED");
+                        String studentNameToSearch = sc.nextLine().trim();
+
+                        if (studentNameToSearch.isEmpty()) {
+                            System.out.println("Field cannot be empty.");
+                            break;
+                        }
+                        studManager.getStudentByName(studentNameToSearch);
                 }
                 case 0 -> {
                     try {
